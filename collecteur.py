@@ -37,7 +37,7 @@ V2 = "https://api.warframe.market/v2"
 UA = {
     # Identification demandee par leurs regles : qui appelle, et pourquoi.
     "User-Agent": "Bazaar-collector/1.0 (collecteur de prix communautaire; "
-                  "+https://github.com/Loydot/bazaar-prix)",
+                  "+https://github.com/Loydot/bazaar-prix; helpers.bazaar@outlook.com)",
     "Platform": "pc",
     "Language": "en",
 }
