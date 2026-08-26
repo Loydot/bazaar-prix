@@ -42,6 +42,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Le collecteur ecrit aussi docs/gameref.json a cote, la table qui
+      # relie le chemin interne d'un objet dans le jeu a sa fiche du
+      # marche. Elle sert a reconnaitre l'objet qu'un joueur regarde.
       - name: Relever les prix
         run: python collecteur.py --sortie docs/prix.json
 
@@ -68,7 +71,7 @@ jobs:
         run: |
           git config user.name  "collecteur"
           git config user.email "actions@github.com"
-          git add docs/prix.json
+          git add docs/prix.json docs/gameref.json
           if git diff --staged --quiet; then
             echo "prix inchanges, rien a publier"
             exit 0
