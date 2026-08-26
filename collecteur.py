@@ -78,13 +78,51 @@ def _get(url, essais=4):
 
 
 def catalogue():
-    """La liste des objets echangeables : slug ET identifiant.
+    """La liste des objets echangeables : slug, identifiant, chemin interne.
 
     On passe par la v2 : la route v1 equivalente est depreciee et repond 403.
     L'identifiant sert a relier la route groupee, qui n'expose pas les slugs.
+    Le champ gameRef est le chemin que le jeu utilise en interne, du genre
+    /Lotus/Upgrades/Mods/Pistol/DualStat/CorruptedCritChanceFireRatePistol.
+    C'est lui qui permettra de reconnaitre l'objet qu'un joueur regarde.
     """
     d = _get(V2 + "/items") or {}
-    return [(it["slug"], it.get("id")) for it in (d.get("data") or []) if it.get("slug")]
+    return [(it["slug"], it.get("id"), it.get("gameRef"))
+            for it in (d.get("data") or []) if it.get("slug")]
+
+
+def normaliser_chemin(chemin):
+    """Ramene un chemin du jeu a la forme utilisee par warframe.market.
+
+    Overwolf annonce l'objet regarde avec un segment /StoreItems/ en plus,
+    que le marche n'a pas. On l'enleve et on passe en minuscules, la casse
+    n'etant pas fiable d'une source a l'autre.
+    """
+    return chemin.replace("/StoreItems/", "/").lower()
+
+
+def ecrire_correspondances(objets, chemin_sortie):
+    """Ecrit la table chemin -> slug, a cote du fichier de prix.
+
+    Elle ne bouge que quand Digital Extremes ajoute des objets, mais la
+    reecrire a chaque passage ne coute rien : le catalogue est deja telecharge.
+    """
+    table = {}
+    for slug, _ident, ref in objets:
+        if ref:
+            table[normaliser_chemin(ref)] = slug
+    sortie = {
+        "stamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "note": "chemin interne du jeu (segment /StoreItems/ retire, minuscules) "
+                "-> objet du marche",
+        "objets": table,
+    }
+    tmp = chemin_sortie + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(sortie, f, ensure_ascii=False, separators=(",", ":"))
+    os.replace(tmp, chemin_sortie)
+    print("ecrit : %s  (%d correspondances, %.0f Ko)"
+          % (chemin_sortie, len(table), os.path.getsize(chemin_sortie) / 1024))
 
 
 def prix_groupes():
@@ -146,6 +184,12 @@ def main():
     objets = catalogue()
     print("catalogue : %d objets" % len(objets))
 
+    # Tout de suite, avant la demi-heure de releve : si celui-ci echoue en
+    # route, la table est deja a jour et publiee.
+    ecrire_correspondances(
+        objets, os.path.join(os.path.dirname(os.path.abspath(args.sortie)),
+                             "gameref.json"))
+
     # La route groupee donne le prix de ~740 Primes en UNE requete. Autant
     # commencer par la : c'est 4 minutes de moins a interroger un par un.
     # Elle ne fournit pas le volume, donc ces objets passent quand meme par
@@ -161,7 +205,7 @@ def main():
     except Exception as e:
         print("route groupee indisponible :", e, file=sys.stderr)
 
-    for i, (slug, _ident) in enumerate(objets, 1):
+    for i, (slug, _ident, _ref) in enumerate(objets, 1):
         try:
             s = stats(slug)
             if s:
