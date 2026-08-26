@@ -1,0 +1,62 @@
+# Releve des prix, a heures fixes.
+#
+# La tache tourne chez GitHub, pas sur le PC des joueurs : une seule machine
+# interroge warframe.market, tout le monde telecharge le fichier produit.
+#
+# Cadence : toutes les 6 heures. Un passage complet dure ~20 minutes, il est
+# inutile d'aller plus vite — les prix medians sur 48 h ne bougent pas d'une
+# heure a l'autre.
+#
+# Le fichier atterrit dans docs/, servi par GitHub Pages. C'est "docs" et non
+# "public" parce que Pages ne sait servir que la racine ou ce dossier-la.
+name: prix
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:        # bouton manuel dans l'onglet Actions
+
+permissions:
+  contents: write
+
+# Un relevé a la fois. Deux passages simultanes se marcheraient dessus au
+# moment du commit, et doubleraient la charge sur warframe.market.
+concurrency:
+  group: prix
+  cancel-in-progress: false
+
+jobs:
+  relever:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Relever les prix
+        run: python collecteur.py --sortie docs/prix.json
+
+      # Un releve rate peut rendre un fichier presque vide sans echouer :
+      # l'API repond, mais ne renvoie rien d'exploitable. Publier ca
+      # remplacerait des prix corrects par du vide chez tous les joueurs.
+      - name: Verifier le releve avant de publier
+        run: |
+          python - <<'PY'
+          import json, sys
+          d = json.load(open("docs/prix.json", encoding="utf-8"))
+          n = len(d.get("prix", {}))
+          print(f"{n} objets releves")
+          if n < 2000:
+              sys.exit(f"releve trop maigre ({n} objets) : on ne publie pas")
+          PY
+
+      - name: Publier si le fichier a change
+        run: |
+          git config user.name  "collecteur"
+          git config user.email "actions@github.com"
+          git add docs/prix.json
+          git diff --staged --quiet || git commit -m "prix $(date -u +%F\ %H:%M)"
+          git push
