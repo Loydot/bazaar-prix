@@ -1,33 +1,30 @@
-# Releve des prix, a heures fixes.
+# Releve des prix toutes les 6 heures.
 #
-# La tache tourne chez GitHub, pas sur le PC des joueurs : une seule machine
-# interroge warframe.market, tout le monde telecharge le fichier produit.
+# Ca tourne chez GitHub et pas sur le PC des joueurs, comme ca une seule
+# machine interroge warframe.market.
 #
-# Cadence : toutes les 6 heures. Un passage complet dure une trentaine de
-# minutes — la cadence est volontairement tenue sous 3 requetes/seconde, et un
-# runner GitHub partage son adresse avec d'autres, donc il encaisse des
-# ralentissements que la meme collecte n'aurait pas sur une machine de bureau.
-# Inutile d'aller plus vite : les prix medians sur 48 h ne bougent pas d'une
-# heure a l'autre.
+# Un passage complet prend une trentaine de minutes. C'est normal, le
+# collecteur se tient sous 3 requetes par seconde. Inutile d'aller plus vite,
+# des prix medians calcules sur 48 h ne bougent pas d'une heure a l'autre.
 #
-# Le fichier atterrit dans docs/, servi par GitHub Pages. C'est "docs" et non
-# "public" parce que Pages ne sait servir que la racine ou ce dossier-la.
+# Le fichier va dans docs/ parce que GitHub Pages ne sait servir que la
+# racine du depot ou ce dossier-la, pas un autre.
 name: prix
 
 on:
   schedule:
-    # 23 et pas 0 : GitHub retarde les taches planifiees quand ses runners
-    # sont charges, et le haut de l'heure est le pire moment — leur propre
-    # documentation conseille de decaler. Le 26/08/2026, le passage demande
-    # a 06:00 UTC n'a demarre qu'a 08:09, soit 2 h 09 de retard.
+    # 23 et pas 0. GitHub retarde les taches planifiees quand ses machines
+    # sont chargees, et le haut de l'heure est le pire moment. C'est leur
+    # doc qui conseille de decaler. Vu le 26/08/2026 : passage demande a
+    # 06:00 UTC, demarre a 08:09.
     - cron: "23 */6 * * *"
   workflow_dispatch:        # bouton manuel dans l'onglet Actions
 
 permissions:
   contents: write
 
-# Un relevé a la fois. Deux passages simultanes se marcheraient dessus au
-# moment du commit, et doubleraient la charge sur warframe.market.
+# Un seul releve a la fois. Deux en parallele se marcheraient dessus au
+# moment du commit et taperaient deux fois sur l'API.
 concurrency:
   group: prix
   cancel-in-progress: false
@@ -35,8 +32,8 @@ concurrency:
 jobs:
   relever:
     runs-on: ubuntu-latest
-    # Large : mieux vaut un relevé lent qu'un relevé coupe en plein vol, qui
-    # laisserait les prix publies vieillir jusqu'au passage suivant.
+    # Large expres. Un releve lent vaut mieux qu'un releve coupe en route,
+    # qui laisserait les prix vieillir jusqu'au passage suivant.
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
@@ -48,9 +45,9 @@ jobs:
       - name: Relever les prix
         run: python collecteur.py --sortie docs/prix.json
 
-      # Un releve rate peut rendre un fichier presque vide sans echouer :
-      # l'API repond, mais ne renvoie rien d'exploitable. Publier ca
-      # remplacerait des prix corrects par du vide chez tous les joueurs.
+      # Un releve peut rater sans planter : l'API repond mais ne renvoie rien
+      # d'utilisable, et on se retrouve avec un fichier quasi vide. Si on le
+      # publiait, tous les joueurs perdraient des prix corrects.
       - name: Verifier le releve avant de publier
         run: |
           python - <<'PY'
@@ -62,12 +59,11 @@ jobs:
               sys.exit(f"releve trop maigre ({n} objets) : on ne publie pas")
           PY
 
-      # Le releve dure une demi-heure. Pendant ce temps, la branche a pu
-      # bouger — un correctif pousse a la main, un autre outil. Le push est
-      # alors refuse ("fetch first") et tout le relevé part a la poubelle.
-      # On rejoue donc notre commit par-dessus ce qui est arrive entre-temps.
-      # Notre commit ne touche qu'un fichier que personne d'autre n'ecrit :
-      # le rebase ne peut pas entrer en conflit.
+      # Le releve dure une demi-heure, et pendant ce temps la branche a pu
+      # bouger (un correctif pousse a la main, par exemple). Le push se fait
+      # alors refuser avec "fetch first" et la demi-heure part a la poubelle.
+      # On rejoue donc le commit par-dessus ce qui est arrive entre-temps.
+      # Aucun risque de conflit, personne d'autre n'ecrit dans ce fichier.
       - name: Publier si le fichier a change
         run: |
           git config user.name  "collecteur"
@@ -83,7 +79,7 @@ jobs:
               echo "publie (tentative $essai)"
               exit 0
             fi
-            echo "push refuse, la branche a bouge — on se replace dessus"
+            echo "push refuse, la branche a bouge, on se replace dessus"
             git pull --rebase --autostash origin main
           done
           echo "publication impossible apres 3 tentatives"
