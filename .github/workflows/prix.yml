@@ -3,8 +3,11 @@
 # La tache tourne chez GitHub, pas sur le PC des joueurs : une seule machine
 # interroge warframe.market, tout le monde telecharge le fichier produit.
 #
-# Cadence : toutes les 6 heures. Un passage complet dure ~20 minutes, il est
-# inutile d'aller plus vite — les prix medians sur 48 h ne bougent pas d'une
+# Cadence : toutes les 6 heures. Un passage complet dure une trentaine de
+# minutes — la cadence est volontairement tenue sous 3 requetes/seconde, et un
+# runner GitHub partage son adresse avec d'autres, donc il encaisse des
+# ralentissements que la meme collecte n'aurait pas sur une machine de bureau.
+# Inutile d'aller plus vite : les prix medians sur 48 h ne bougent pas d'une
 # heure a l'autre.
 #
 # Le fichier atterrit dans docs/, servi par GitHub Pages. C'est "docs" et non
@@ -28,7 +31,9 @@ concurrency:
 jobs:
   relever:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Large : mieux vaut un relevé lent qu'un relevé coupe en plein vol, qui
+    # laisserait les prix publies vieillir jusqu'au passage suivant.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
