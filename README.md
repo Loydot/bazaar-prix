@@ -31,8 +31,8 @@ donc le relevé et tout le monde télécharge le même fichier.
 Chaque entrée vaut `[prix médian, ventes par jour]`, calculé sur les ventes
 conclues des 48 dernières heures. Environ 3 800 objets, une centaine de Ko.
 
-Si vous écrivez un outil pour Warframe, servez-vous, ça vous évite de refaire
-le relevé.
+Le fichier est produit pour l'application Bazaar et son format peut changer
+sans préavis.
 
 ## Les règles de warframe.market
 
