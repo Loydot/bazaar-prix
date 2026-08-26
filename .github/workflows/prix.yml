@@ -58,10 +58,29 @@ jobs:
               sys.exit(f"releve trop maigre ({n} objets) : on ne publie pas")
           PY
 
+      # Le releve dure une demi-heure. Pendant ce temps, la branche a pu
+      # bouger — un correctif pousse a la main, un autre outil. Le push est
+      # alors refuse ("fetch first") et tout le relevé part a la poubelle.
+      # On rejoue donc notre commit par-dessus ce qui est arrive entre-temps.
+      # Notre commit ne touche qu'un fichier que personne d'autre n'ecrit :
+      # le rebase ne peut pas entrer en conflit.
       - name: Publier si le fichier a change
         run: |
           git config user.name  "collecteur"
           git config user.email "actions@github.com"
           git add docs/prix.json
-          git diff --staged --quiet || git commit -m "prix $(date -u +%F\ %H:%M)"
-          git push
+          if git diff --staged --quiet; then
+            echo "prix inchanges, rien a publier"
+            exit 0
+          fi
+          git commit -m "prix $(date -u +%F\ %H:%M)"
+          for essai in 1 2 3; do
+            if git push; then
+              echo "publie (tentative $essai)"
+              exit 0
+            fi
+            echo "push refuse, la branche a bouge — on se replace dessus"
+            git pull --rebase --autostash origin main
+          done
+          echo "publication impossible apres 3 tentatives"
+          exit 1
