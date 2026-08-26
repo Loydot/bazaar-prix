@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar — Support</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0 auto; padding: 40px 22px 80px; max-width: 760px;
+         background: #0b0f16; color: #e8eef6;
+         font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  h2 { font-size: 19px; margin: 40px 0 12px; color: #2fd4c6; }
+  h3 { font-size: 16px; margin: 26px 0 6px; }
+  .sub { color: #8496ac; font-size: 14px; margin-bottom: 30px; }
+  a { color: #5aa9ff; }
+  p { margin: 8px 0; }
+  ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  kbd { background: #161f2e; border: 1px solid #293a52; border-bottom-width: 2px;
+        border-radius: 5px; padding: 1px 7px; font: 13px/1 monospace; }
+  .ver { border-left: 3px solid #1e2a3c; padding-left: 16px; margin: 18px 0; }
+  .ver b { color: #f5c542; }
+  footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #1e2a3c;
+           color: #61728a; font-size: 14px; }
+</style>
+
+<h1>Bazaar — Support</h1>
+<p class="sub">The Warframe market, ranked by what items actually earn.</p>
+
+<p>Something not working, or a question the answers below don't cover?
+<a href="https://github.com/Loydot/bazaar-prix/issues">Open an issue</a> and
+describe what you were doing. It gets read.</p>
+
+<h2>Questions people ask</h2>
+
+<h3>Why is a price different from what I see in game chat?</h3>
+<p>Bazaar shows the <em>median</em> of sales actually concluded over the last
+48 hours, not what people are asking for. Someone shouting a high price in
+chat has not sold anything yet. The median is what the item really changes
+hands for.</p>
+
+<h3>What does the Volume column mean?</h3>
+<p>Price multiplied by how many sell per day. It is the whole point of the
+app: an item asking 200p that moves twice a week earns less than a 40p mod
+that moves eighty times. Sorting by Volume puts the genuinely profitable
+items on top.</p>
+
+<h3>How often do prices update?</h3>
+<p>A single machine collects the entire market every six hours and publishes
+one file. Your copy downloads it when it starts and then every thirty
+minutes. Anything you click on is queried live, so an item you open is always
+current.</p>
+
+<h3>Baro Ki'Teer or Maroo's Bazaar is empty</h3>
+<p>That is normal when the trader is not in game. Their stock only exists
+while they are visiting. Baro shows up every two weeks; Varzia's rotation
+changes monthly.</p>
+
+<h3>An item is missing</h3>
+<p>Bazaar lists what warframe.market lists. If an item cannot be traded
+between players, it is not there. Newly released items appear once the market
+adds them, usually within a day or two.</p>
+
+<h3><kbd>Alt</kbd> + <kbd>B</kbd> does nothing in game</h3>
+<p>Check the hotkey actually assigned: open the settings (the gear, top
+right), the in-game hotkey section shows the current binding. Another app may
+have taken the same combination. Change it from there.</p>
+<p>The overlay only exists while Warframe is running. On the desktop, the main
+window is the one to use.</p>
+
+<h3>Prices look old and the dot next to them is grey</h3>
+<p>That means the last download failed and you are seeing the prices from
+before. Click Refresh. If it keeps failing, your connection or GitHub is the
+likely cause; the app keeps working with what it already has.</p>
+
+<h3>Does Bazaar read my game?</h3>
+<p>No. It does not read memory, inject anything, or open any Warframe file.
+The <a href="privacy.html">privacy policy</a> spells out exactly what it does
+and does not do.</p>
+
+<h3>Where do the prices come from?</h3>
+<p>From <a href="https://warframe.market">warframe.market</a>, whose community
+makes them. Drop sources come from
+<a href="https://warframestat.us">warframestat.us</a>. The collector that
+gathers them is <a href="https://github.com/Loydot/bazaar-prix">open
+source</a>.</p>
+
+<h2>If something is broken</h2>
+<ul>
+  <li>Close and reopen the app. Prices are cached, so it costs you nothing.</li>
+  <li>Click Refresh to force a new download.</li>
+  <li>Still stuck?
+      <a href="https://github.com/Loydot/bazaar-prix/issues">Open an issue</a>
+      with what you did and what happened.</li>
+</ul>
+
+<h2>What changed</h2>
+<div class="ver">
+  <p><b>1.0.0</b></p>
+  <ul>
+    <li>The whole market, ranked by price times daily sales.</li>
+    <li>Prime sets expand into their parts, with the price of each.</li>
+    <li>Drop sources, vaulted items flagged, Baro and Maroo's stock.</li>
+    <li>Riven estimator: what rolls actually sell for, and which stats move
+        the price.</li>
+    <li>In-game search on <kbd>Alt</kbd> + <kbd>B</kbd>.</li>
+    <li>English and French.</li>
+  </ul>
+</div>
+
+<footer>
+  Bazaar by Loydot ·
+  <a href="privacy.html">Privacy policy</a> ·
+  <a href="aide.html">Version française</a> ·
+  <a href="https://github.com/Loydot/bazaar-prix">Price collector source</a>
+  <p>Not affiliated with Digital Extremes, Warframe, warframe.market or
+  Overwolf.</p>
+</footer>
+</html>

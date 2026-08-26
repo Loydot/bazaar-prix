@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar — Aide</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0 auto; padding: 40px 22px 80px; max-width: 760px;
+         background: #0b0f16; color: #e8eef6;
+         font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  h2 { font-size: 19px; margin: 40px 0 12px; color: #2fd4c6; }
+  h3 { font-size: 16px; margin: 26px 0 6px; }
+  .sub { color: #8496ac; font-size: 14px; margin-bottom: 30px; }
+  a { color: #5aa9ff; }
+  p { margin: 8px 0; }
+  ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  kbd { background: #161f2e; border: 1px solid #293a52; border-bottom-width: 2px;
+        border-radius: 5px; padding: 1px 7px; font: 13px/1 monospace; }
+  .ver { border-left: 3px solid #1e2a3c; padding-left: 16px; margin: 18px 0; }
+  .ver b { color: #f5c542; }
+  footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #1e2a3c;
+           color: #61728a; font-size: 14px; }
+</style>
+
+<h1>Bazaar — Aide</h1>
+<p class="sub">Le marché de Warframe, classé par ce que les objets rapportent
+vraiment.</p>
+
+<p>Un souci, ou une question que les réponses ci-dessous ne couvrent pas ?
+<a href="https://github.com/Loydot/bazaar-prix/issues">Ouvre un ticket</a> en
+décrivant ce que tu faisais. C'est lu.</p>
+
+<h2>Les questions qui reviennent</h2>
+
+<h3>Pourquoi un prix ne correspond pas à ce que je vois dans le chat ?</h3>
+<p>Bazaar affiche la <em>médiane</em> des ventes réellement conclues sur les
+48 dernières heures, pas ce que les gens demandent. Quelqu'un qui annonce un
+prix élevé dans le chat n'a encore rien vendu. La médiane, c'est ce à quoi
+l'objet change vraiment de mains.</p>
+
+<h3>Ça veut dire quoi, la colonne Volume ?</h3>
+<p>Le prix multiplié par le nombre de ventes par jour. C'est tout l'intérêt de
+l'application : un objet à 200 p qui part deux fois par semaine rapporte moins
+qu'un mod à 40 p qui part quatre-vingts fois. Trier par Volume met en haut ce
+qui rapporte réellement.</p>
+
+<h3>À quelle fréquence les prix changent ?</h3>
+<p>Une seule machine relève tout le marché toutes les six heures et publie un
+fichier. Ton exemplaire le télécharge au démarrage puis toutes les trente
+minutes. Et tout objet sur lequel tu cliques est réinterrogé en direct, donc
+une fiche ouverte est toujours à jour.</p>
+
+<h3>Baro Ki'Teer ou le Bazar de Maroo est vide</h3>
+<p>C'est normal quand le marchand n'est pas en jeu. Leur stock n'existe que
+pendant leur passage. Baro revient toutes les deux semaines, la rotation de
+Varzia change tous les mois.</p>
+
+<h3>Un objet n'apparaît pas</h3>
+<p>Bazaar liste ce que warframe.market liste. Un objet non échangeable entre
+joueurs n'y est pas. Les nouveautés arrivent une fois que le marché les
+ajoute, en général sous un jour ou deux.</p>
+
+<h3><kbd>Alt</kbd> + <kbd>B</kbd> ne fait rien en jeu</h3>
+<p>Vérifie le raccourci réellement affecté : ouvre les réglages (l'engrenage,
+en haut à droite), la section du raccourci en jeu affiche la combinaison
+actuelle. Une autre application a peut-être pris la même. Tu peux la changer
+de là.</p>
+<p>La surimpression n'existe que pendant que Warframe tourne. Sur le bureau,
+c'est la fenêtre principale qui sert.</p>
+
+<h3>Les prix ont l'air vieux et le point à côté est gris</h3>
+<p>Ça veut dire que le dernier téléchargement a échoué et que tu vois les prix
+d'avant. Clique sur Actualiser. Si ça continue, c'est ta connexion ou GitHub ;
+l'application continue de fonctionner avec ce qu'elle a déjà.</p>
+
+<h3>Est-ce que Bazaar lit mon jeu ?</h3>
+<p>Non. Elle ne lit pas la mémoire, n'injecte rien et n'ouvre aucun fichier de
+Warframe. La <a href="confidentialite.html">politique de confidentialité</a>
+dit exactement ce qu'elle fait et ne fait pas.</p>
+
+<h3>D'où viennent les prix ?</h3>
+<p>De <a href="https://warframe.market">warframe.market</a>, dont la
+communauté les fabrique. Les tables de drop viennent de
+<a href="https://warframestat.us">warframestat.us</a>. Le collecteur qui les
+rassemble est <a href="https://github.com/Loydot/bazaar-prix">en accès
+libre</a>.</p>
+
+<h2>Si quelque chose casse</h2>
+<ul>
+  <li>Ferme et rouvre l'application. Les prix sont en cache, ça ne coûte
+      rien.</li>
+  <li>Clique sur Actualiser pour forcer un téléchargement.</li>
+  <li>Toujours bloqué ?
+      <a href="https://github.com/Loydot/bazaar-prix/issues">Ouvre un
+      ticket</a> avec ce que tu as fait et ce qui s'est passé.</li>
+</ul>
+
+<h2>Ce qui a changé</h2>
+<div class="ver">
+  <p><b>1.0.0</b></p>
+  <ul>
+    <li>Tout le marché, classé par le prix multiplié par les ventes du
+        jour.</li>
+    <li>Les sets Prime se déroulent en leurs pièces, avec le prix de
+        chacune.</li>
+    <li>Provenance des objets, vaultés signalés, stocks de Baro et de
+        Maroo.</li>
+    <li>Estimateur de riven : à quel prix les rolls partent vraiment, et
+        quelles stats font monter la valeur.</li>
+    <li>Recherche en jeu sur <kbd>Alt</kbd> + <kbd>B</kbd>.</li>
+    <li>Français et anglais.</li>
+  </ul>
+</div>
+
+<footer>
+  Bazaar par Loydot ·
+  <a href="confidentialite.html">Confidentialité</a> ·
+  <a href="support.html">English version</a> ·
+  <a href="https://github.com/Loydot/bazaar-prix">Code du collecteur</a>
+  <p>Sans lien avec Digital Extremes, Warframe, warframe.market ou
+  Overwolf.</p>
+</footer>
+</html>
