@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar — Confidentialité</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0 auto; padding: 40px 22px 80px; max-width: 760px;
+         background: #0b0f16; color: #e8eef6;
+         font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  h2 { font-size: 18px; margin: 38px 0 10px; color: #2fd4c6; }
+  .date { color: #8496ac; font-size: 14px; margin-bottom: 30px; }
+  a { color: #5aa9ff; }
+  ul { padding-left: 22px; }
+  li { margin: 7px 0; }
+  code { background: #121926; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  .note { border-left: 3px solid #1e2a3c; padding-left: 16px; color: #8496ac;
+          margin: 30px 0; }
+  footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #1e2a3c;
+           color: #61728a; font-size: 14px; }
+</style>
+
+<h1>Confidentialité — Bazaar</h1>
+<p class="date">Dernière mise à jour : 26 août 2026</p>
+
+<p>Bazaar est une application Overwolf qui affiche les prix du marché de
+Warframe, classés par ce que les objets rapportent vraiment. Cette page dit ce
+qu'elle fait des données. En résumé : elle ne collecte rien sur vous.</p>
+
+<h2>Ce que Bazaar ne fait pas</h2>
+<ul>
+  <li>Elle ne lit pas la mémoire du jeu, n'y injecte rien, et n'ouvre ni ne
+      modifie aucun fichier de Warframe.</li>
+  <li>Elle ne demande ni compte, ni nom, ni adresse mail, ni mot de passe.</li>
+  <li>Elle n'a ni mesure d'audience, ni télémétrie, ni remontée de plantages.</li>
+  <li>Elle n'envoie rien à un serveur appartenant au développeur. Ce serveur
+      n'existe pas.</li>
+</ul>
+
+<h2>Ce qui sort de votre ordinateur</h2>
+<p>Bazaar contacte trois adresses en HTTPS, uniquement pour récupérer des
+informations publiques :</p>
+<ul>
+  <li><code>loydot.github.io</code> — un fichier unique contenant le prix de
+      tous les objets suivis, refait toutes les six heures. L'application le
+      télécharge et le lit en local.</li>
+  <li><code>api.warframe.market</code> — les prix publics et les annonces de
+      vente publiques, quand vous ouvrez un objet pour voir les vendeurs en
+      ligne.</li>
+  <li><code>api.warframestat.us</code> et <code>drops.warframestat.us</code> —
+      les tables de drop, pour montrer d'où vient un objet.</li>
+</ul>
+<p>Ces requêtes ne contiennent aucune information vous concernant. Comme toute
+requête sur internet, elles transportent votre adresse IP et les en-têtes
+habituels, que ces services traitent selon leurs propres règles.</p>
+
+<h2>Ce qui reste sur votre ordinateur</h2>
+<ul>
+  <li>Votre choix de langue et le fait d'avoir vu l'écran d'accueil, dans le
+      stockage local de l'application.</li>
+  <li>Une copie de la liste des prix et sa date, dans la base IndexedDB de
+      l'application, pour qu'elle s'ouvre instantanément et fonctionne même
+      hors ligne.</li>
+</ul>
+<p>Rien de tout cela ne quitte la machine. Désinstaller l'application efface
+l'ensemble.</p>
+
+<h2>Overwolf et la publicité</h2>
+<p>Bazaar tourne sur la plateforme Overwolf, qui a ses propres pratiques,
+décrites dans la
+<a href="https://legal.overwolf.com/docs/overwolf/platform/platform-privacy-policy/">politique
+de confidentialité d'Overwolf</a>. L'application réserve un emplacement pour de
+la publicité diffusée par Overwolf ; là où des publicités s'affichent, Overwolf
+et ses partenaires collectent des données comme indiqué dans cette politique.
+Le développeur de Bazaar n'en reçoit aucune.</p>
+
+<h2>Enfants</h2>
+<p>Bazaar ne vise pas les enfants de moins de 13 ans et ne collecte aucune
+donnée sur qui que ce soit, quel que soit son âge.</p>
+
+<h2>Vos droits</h2>
+<p>Comme rien vous concernant n'est collecté ni conservé ailleurs que sur votre
+propre ordinateur, il n'y a rien à demander, corriger ou supprimer. Effacer les
+données de l'application ou la désinstaller enlève tout ce qu'elle gardait en
+local.</p>
+
+<h2>Modifications</h2>
+<p>Si cette politique change, la nouvelle version sera publiée sur cette page
+avec une date à jour en haut.</p>
+
+<h2>Contact</h2>
+<p>Une question :
+<a href="https://github.com/Loydot/bazaar-prix/issues">ouvrez un ticket sur le
+dépôt du projet</a>.</p>
+
+<div class="note">
+  Bazaar est un projet indépendant. Il n'est ni affilié, ni soutenu, ni
+  sponsorisé par Digital Extremes, Warframe, warframe.market ou Overwolf.
+</div>
+
+<footer>
+  Bazaar par Loydot ·
+  <a href="https://github.com/Loydot/bazaar-prix">code du collecteur de
+  prix</a> ·
+  <a href="privacy.html">English version</a>
+</footer>
+</html>
