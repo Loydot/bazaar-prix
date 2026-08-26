@@ -49,7 +49,7 @@ refaire le relevé.
 ## Faire tourner le relevé chez soi
 
 ```bash
-python collecteur.py                    # catalogue complet, ~20 minutes
+python collecteur.py                    # catalogue complet, ~35 minutes
 python collecteur.py --sortie /tmp/p.json
 ```
 

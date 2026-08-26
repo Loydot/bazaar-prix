@@ -14,8 +14,9 @@ Ce script produit UN fichier `prix.json` :
      "source": "warframe.market",
      "prix": {"ash_prime_set": [95.0, 41.2], ...}}   # [prix median, ventes/j]
 
-Duree : environ 20 minutes pour le catalogue complet, la cadence etant
-volontairement tenue sous la limite de 3 requetes/seconde.
+Duree : une trentaine de minutes pour le catalogue complet, la cadence etant
+volontairement tenue sous la limite de 3 requetes/seconde. Sur un runner
+GitHub, dont l'adresse est partagee, compter un peu plus.
 
 Usage :
     python collecteur.py            # catalogue complet
