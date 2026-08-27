@@ -26,13 +26,17 @@
 
 <p>Bazaar est une application Overwolf qui affiche les prix du marché de
 Warframe, classés par ce que les objets rapportent vraiment. Cette page dit ce
-qu'elle fait des données. En résumé : elle ne collecte rien sur vous.</p>
+qu'elle fait des données. En résumé : le développeur ne collecte rien sur vous,
+et rien ne quitte votre ordinateur sauf ce que vous choisissez d'envoyer à
+warframe.market en vous y connectant.</p>
 
 <h2>Ce que Bazaar ne fait pas</h2>
 <ul>
   <li>Elle ne lit pas la mémoire du jeu, n'y injecte rien, et n'ouvre ni ne
       modifie aucun fichier de Warframe.</li>
-  <li>Elle ne demande ni compte, ni nom, ni adresse mail, ni mot de passe.</li>
+  <li>Elle ne demande aucun compte pour consulter les prix, l'inventaire ou
+      les tables de drop. Seule la mise en vente en demande un, celui de
+      warframe.market, et elle est facultative : voir plus bas.</li>
   <li>Elle n'a ni mesure d'audience, ni télémétrie, ni remontée de plantages.</li>
   <li>Elle n'envoie rien à un serveur appartenant au développeur. Ce serveur
       n'existe pas.</li>
@@ -55,6 +59,31 @@ informations publiques :</p>
 requête sur internet, elles transportent votre adresse IP et les en-têtes
 habituels, que ces services traitent selon leurs propres règles.</p>
 
+<h2>Si vous vous connectez à warframe.market</h2>
+<p>Bazaar peut publier et modifier vos annonces de vente sur warframe.market.
+Cette fonction est facultative : tant que vous ne vous connectez pas, rien de
+ce paragraphe ne s'applique.</p>
+<ul>
+  <li>Votre adresse mail et votre mot de passe sont envoyés à
+      <code>warframe.market</code>, et à personne d'autre, le temps de la
+      connexion. Le mot de passe n'est jamais enregistré, ni en clair ni
+      autrement.</li>
+  <li>En retour, le site délivre un jeton de session. Ce jeton est conservé
+      sur votre ordinateur, dans le stockage local de l'application, pour ne
+      pas avoir à se reconnecter à chaque ouverture. Il n'est envoyé qu'à
+      warframe.market.</li>
+  <li>Se déconnecter efface le jeton immédiatement. Désinstaller
+      l'application aussi.</li>
+  <li>Ce que vous faites de vos annonces regarde ensuite warframe.market,
+      selon leurs propres règles.</li>
+</ul>
+
+<h2>L'inventaire</h2>
+<p>Si vous activez la lecture d'inventaire, la liste de vos objets vient
+d'Overwolf, qui la reçoit du jeu. Bazaar met un prix en face de chaque objet
+et fait le total. Cette liste reste sur votre ordinateur : elle n'est envoyée
+nulle part, et le développeur n'y a pas accès.</p>
+
 <h2>Ce qui reste sur votre ordinateur</h2>
 <ul>
   <li>Votre choix de langue et le fait d'avoir vu l'écran d'accueil, dans le
@@ -62,6 +91,10 @@ habituels, que ces services traitent selon leurs propres règles.</p>
   <li>Une copie de la liste des prix et sa date, dans la base IndexedDB de
       l'application, pour qu'elle s'ouvre instantanément et fonctionne même
       hors ligne.</li>
+  <li>Si vous vous connectez à warframe.market, le jeton de session et votre
+      nom en jeu, dans le stockage local.</li>
+  <li>Si vous activez l'inventaire, la liste de vos objets et sa date, dans
+      la même base.</li>
 </ul>
 <p>Rien de tout cela ne quitte la machine. Désinstaller l'application efface
 l'ensemble.</p>
@@ -80,10 +113,11 @@ Le développeur de Bazaar n'en reçoit aucune.</p>
 donnée sur qui que ce soit, quel que soit son âge.</p>
 
 <h2>Vos droits</h2>
-<p>Comme rien vous concernant n'est collecté ni conservé ailleurs que sur votre
-propre ordinateur, il n'y a rien à demander, corriger ou supprimer. Effacer les
-données de l'application ou la désinstaller enlève tout ce qu'elle gardait en
-local.</p>
+<p>Rien vous concernant n'est collecté ni conservé ailleurs que sur votre propre
+ordinateur : il n'y a donc rien à demander, corriger ou supprimer auprès du
+développeur. Effacer les données de l'application ou la désinstaller enlève tout
+ce qu'elle gardait en local, jeton de session compris. Pour le compte
+warframe.market lui-même, adressez-vous à warframe.market.</p>
 
 <h2>Modifications</h2>
 <p>Si cette politique change, la nouvelle version sera publiée sur cette page

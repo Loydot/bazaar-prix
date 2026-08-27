@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazaar — Why you left</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0 auto; padding: 40px 22px 80px; max-width: 620px;
+         background: #0b0f16; color: #e8eef6;
+         font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  .sub { color: #8496ac; font-size: 14px; margin-bottom: 32px; }
+  a { color: #5aa9ff; }
+  fieldset { border: 1px solid #1e2a3c; border-radius: 12px; margin: 0 0 18px;
+             padding: 16px 18px 18px; }
+  legend { color: #2fd4c6; font-size: 14px; font-weight: 600; padding: 0 6px; }
+  label.opt { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0;
+              cursor: pointer; font-size: 15px; }
+  label.opt input { margin: 4px 0 0; accent-color: #2fd4c6; flex-shrink: 0; }
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; margin-top: 8px;
+    background: #111823; border: 1px solid #293a52; border-radius: 8px;
+    color: #e8eef6; padding: 10px 12px; font: inherit; font-size: 15px; }
+  textarea { min-height: 90px; resize: vertical; }
+  textarea:focus, input[type=text]:focus { outline: none; border-color: #2fd4c6; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  button { border: 0; border-radius: 9px; padding: 12px 20px; cursor: pointer;
+           font: inherit; font-size: 15px; font-weight: 600; }
+  .go { background: #2fd4c6; color: #04201d; }
+  .go:hover { background: #4ee2d5; }
+  .go[disabled] { background: #1e2a3c; color: #61728a; cursor: not-allowed; }
+  .alt { background: #161f2e; color: #8496ac; border: 1px solid #293a52; }
+  .alt:hover { color: #e8eef6; }
+  .note { color: #61728a; font-size: 13px; margin-top: 16px; line-height: 1.6; }
+  .ok { display: none; background: rgba(47,212,198,.1); border: 1px solid rgba(47,212,198,.3);
+        border-radius: 10px; padding: 14px 16px; margin-bottom: 18px; font-size: 15px; }
+  footer { margin-top: 46px; padding-top: 20px; border-top: 1px solid #1e2a3c;
+           color: #61728a; font-size: 14px; }
+</style>
+
+<h1>You just uninstalled Bazaar</h1>
+<p class="sub">Shame. Three questions, twenty seconds — it is the only way
+we get to know what went wrong.</p>
+
+<div class="ok" id="ok"></div>
+
+<form id="f">
+  <fieldset>
+    <legend>Why you are leaving</legend>
+    <label class="opt"><input type="radio" name="r" value="It did not do what I expected"> It did not do what I expected</label>
+    <label class="opt"><input type="radio" name="r" value="The prices looked wrong"> The prices looked wrong</label>
+    <label class="opt"><input type="radio" name="r" value="It was slow or heavy"> It was slow or heavy</label>
+    <label class="opt"><input type="radio" name="r" value="A bug blocked me"> A bug blocked me</label>
+    <label class="opt"><input type="radio" name="r" value="The in-game overlay got in the way"> The in-game overlay got in the way</label>
+    <label class="opt"><input type="radio" name="r" value="I found something better"> I found something better</label>
+    <label class="opt"><input type="radio" name="r" value="I do not trade much"> I do not trade much</label>
+    <label class="opt"><input type="radio" name="r" value="autre" id="r-autre"> Other:</label>
+    <input type="text" id="autre" placeholder="Say it in your own words" disabled>
+  </fieldset>
+
+  <fieldset>
+    <legend>How long you kept it</legend>
+    <label class="opt"><input type="radio" name="d" value="Less than a day"> Less than a day</label>
+    <label class="opt"><input type="radio" name="d" value="A few days"> A few days</label>
+    <label class="opt"><input type="radio" name="d" value="A few weeks"> A few weeks</label>
+    <label class="opt"><input type="radio" name="d" value="Longer than that"> Longer than that</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>What would have made you stay (optional)</legend>
+    <textarea id="plus" placeholder="A feature that was missing, something that annoyed you…"></textarea>
+  </fieldset>
+
+  <div class="actions">
+    <button type="submit" class="go" id="envoi" disabled>Send by email</button>
+    <button type="button" class="alt" id="copier">Copy my answers</button>
+    <button type="button" class="alt" id="discord">Say it on Discord</button>
+  </div>
+</form>
+
+<p class="note">Nothing is sent automatically and nothing is collected about you.
+This page contacts no server: your answers stay in your browser until you click
+a button yourself. "Send by email" simply opens your mail app with the message
+already written — you read it before sending.</p>
+
+<footer>
+  Bazaar · <a href="privacy.html">Privacy</a> ·
+  <a href="support.html">Support</a> ·
+  <a href="quitter.html" hreflang="fr" id="lien-en">Français</a>
+</footer>
+
+<script>
+"use strict";
+(() => {
+  const $ = s => document.querySelector(s);
+  const MAIL = "helpers.bazaar@outlook.com";
+  const DISCORD = "https://discord.gg/QZWT3vrMkQ";
+
+  $("#lien-en").href = "quitter.html";
+
+  const rAutre = $("#r-autre"), champAutre = $("#autre");
+
+  /* Le champ libre ne s'active qu'avec son bouton : un champ actif sous une
+     case non cochee laisse croire qu'on peut ecrire sans choisir. */
+  document.querySelectorAll('input[name="r"]').forEach(x => {
+    x.addEventListener("change", () => {
+      champAutre.disabled = !rAutre.checked;
+      if (rAutre.checked) champAutre.focus();
+      majBouton();
+    });
+  });
+  champAutre.addEventListener("input", majBouton);
+
+  /* Le bouton reste eteint tant qu'il n'y a rien a envoyer : mieux vaut un
+     bouton visiblement inactif qu'un envoi vide. */
+  function majBouton() {
+    $("#envoi").disabled = !raison();
+  }
+  function raison() {
+    const c = document.querySelector('input[name="r"]:checked');
+    if (!c) return "";
+    if (c.value !== "autre") return c.value;
+    return champAutre.value.trim();
+  }
+  function duree() {
+    const c = document.querySelector('input[name="d"]:checked');
+    return c ? c.value : "";
+  }
+
+  function texte() {
+    const l = ["Reason: " + raison()];
+    if (duree()) l.push("Time used: " + duree());
+    const p = $("#plus").value.trim();
+    if (p) l.push("What would have made me stay: " + p);
+    return l.join("\n");
+  }
+
+  function annonce(m) {
+    const b = $("#ok");
+    b.textContent = m;
+    b.style.display = "block";
+  }
+
+  $("#f").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const url = "mailto:" + MAIL
+      + "?subject=" + encodeURIComponent("Bazaar — uninstall")
+      + "&body=" + encodeURIComponent(texte());
+    window.location.href = url;
+    annonce("Your mail app should open with the message already written. Thanks for taking the time.");
+  });
+
+  $("#copier").addEventListener("click", async () => {
+    const t = texte() || "(nothing filled in)";
+    try {
+      await navigator.clipboard.writeText(t);
+      annonce("Answers copied. Paste them wherever you like, on Discord or by email.");
+    } catch (e) {
+      // Le presse-papier peut etre refuse : on montre le texte, l'utilisateur
+      // le selectionne lui-meme plutot que de rester sans rien.
+      annonce("The browser refused to copy. Here are your answers: " + t);
+    }
+  });
+
+  $("#discord").addEventListener("click", () => {
+    window.open(DISCORD, "_blank", "noopener");
+  });
+})();
+</script>
+</html>

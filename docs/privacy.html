@@ -26,13 +26,16 @@
 
 <p>Bazaar is an Overwolf app that shows Warframe market prices, ranked by what
 items actually earn. This page explains what it does with data. The short
-version: it does not collect anything about you.</p>
+version: the developer collects nothing about you, and nothing leaves your
+computer except what you choose to send to warframe.market by signing in.</p>
 
 <h2>What Bazaar does not do</h2>
 <ul>
   <li>It does not read the game's memory, inject code into it, or open or
       modify any Warframe file.</li>
-  <li>It does not ask for an account, a name, an email address or a password.</li>
+  <li>It asks for no account at all to browse prices, your inventory or drop
+      tables. Only posting items for sale needs one — your warframe.market
+      account — and that part is optional: see below.</li>
   <li>It has no analytics, no telemetry and no crash reporting.</li>
   <li>It does not send anything to a server owned by the developer. There is
       no such server.</li>
@@ -54,12 +57,38 @@ information:</p>
 internet they carry your IP address and standard browser headers, which those
 services handle under their own policies.</p>
 
+<h2>If you sign in to warframe.market</h2>
+<p>Bazaar can post and edit your sell listings on warframe.market. This is
+optional: as long as you do not sign in, nothing in this section applies.</p>
+<ul>
+  <li>Your email address and password are sent to <code>warframe.market</code>,
+      and to nobody else, for the duration of the sign-in. The password is
+      never stored, in any form.</li>
+  <li>In return the site issues a session token. That token is kept on your
+      computer, in the app's local storage, so you do not have to sign in
+      again every time. It is only ever sent to warframe.market.</li>
+  <li>Signing out erases the token straight away. So does uninstalling the
+      app.</li>
+  <li>What happens to your listings after that is between you and
+      warframe.market, under their own rules.</li>
+</ul>
+
+<h2>Your inventory</h2>
+<p>If you turn on inventory reading, the list of your items comes from
+Overwolf, which receives it from the game. Bazaar puts a price on each item and
+adds it up. That list stays on your computer: it is not sent anywhere, and the
+developer has no access to it.</p>
+
 <h2>What stays on your computer</h2>
 <ul>
   <li>Your language choice and whether you have seen the welcome screen, in the
       app's local storage.</li>
   <li>A copy of the price list and the time it was taken, in the app's
       IndexedDB database, so the app opens instantly and still works offline.</li>
+  <li>If you sign in to warframe.market, the session token and your in-game
+      name, in local storage.</li>
+  <li>If you turn on the inventory, the list of your items and its date, in
+      the same database.</li>
 </ul>
 <p>None of it ever leaves the machine. Uninstalling the app removes all of
 it.</p>
@@ -77,9 +106,11 @@ data as set out in that policy. The developer of Bazaar receives none of it.</p>
 whatever their age.</p>
 
 <h2>Your rights</h2>
-<p>Since nothing about you is collected or stored anywhere outside your own
-computer, there is nothing to request, correct or delete. Clearing the app's
-data or uninstalling it removes everything it kept locally.</p>
+<p>Nothing about you is collected or stored anywhere outside your own computer,
+so there is nothing to request, correct or delete from the developer. Clearing
+the app's data or uninstalling it removes everything it kept locally, session
+token included. For the warframe.market account itself, contact
+warframe.market.</p>
 
 <h2>Changes</h2>
 <p>If this policy changes, the updated version will be published on this page
