@@ -158,11 +158,39 @@ def stats(slug):
     lignes = [r for r in jours if (r.get("mod_rank") or 0) == 0][-7:] or jours[-7:]
     if not lignes:
         return None
-    medians = sorted(r["median"] for r in lignes)
-    n = len(medians)
-    med = medians[n // 2] if n % 2 else (medians[n // 2 - 1] + medians[n // 2]) / 2
+
+    def mediane(valeurs):
+        v = sorted(valeurs)
+        n = len(v)
+        return v[n // 2] if n % 2 else (v[n // 2 - 1] + v[n // 2]) / 2
+
+    med = mediane([r["median"] for r in lignes])
     vol = sum(r["volume"] for r in lignes) / len(lignes)
-    return round(med, 1), round(vol, 1)
+
+    return round(med, 1), round(vol, 1), rang_max(jours)
+
+
+def rang_max(jours):
+    """Mediane des ventes au rang le plus haut observe.
+
+    Aucune requete supplementaire : le meme releve porte deja mod_rank. On
+    prend le rang le plus eleve qu'on voit passer plutot qu'une valeur fixe,
+    parce qu'il change d'un objet a l'autre (10 pour un mod ordinaire, 3 pour
+    une arcane, 5 pour un mod de compagnon).
+
+    Rend None pour tout ce qui n'a pas de rang : inutile de gonfler le
+    fichier publie avec des zeros.
+    """
+    rangs = [r.get("mod_rank") or 0 for r in jours]
+    haut = max(rangs) if rangs else 0
+    if haut <= 0:
+        return None
+    lignes = [r for r in jours if (r.get("mod_rank") or 0) == haut][-7:]
+    if not lignes:
+        return None
+    v = sorted(r["median"] for r in lignes)
+    n = len(v)
+    return round(v[n // 2] if n % 2 else (v[n // 2 - 1] + v[n // 2]) / 2, 1)
 
 
 def main():
@@ -209,7 +237,11 @@ def main():
         try:
             s = stats(slug)
             if s:
-                prix[slug] = list(s)
+                # Le troisieme element n'existe que pour ce qui a des rangs.
+                # On le retire quand il est vide plutot que de publier trois
+                # mille "null" : le fichier est telecharge par chaque
+                # installation, chaque octet compte.
+                prix[slug] = [x for x in s if x is not None] if s[2] is None                              else list(s)
             elif slug in groupes:
                 # aucune vente conclue sur 48 h : on garde au moins le prix
                 prix[slug] = [groupes[slug], 0]
